@@ -15,6 +15,14 @@ At the end of each phase there is a **Verify** box. Do not move on until it pass
 
 ## Phase 0 — Prerequisites (first time only, ~60 min)
 
+### 0.0 Base packages (fresh Ubuntu)
+
+```bash
+sudo apt update && sudo apt install -y curl zip unzip
+```
+
+`zip`/`unzip` are required by SDKMAN in 0.2 — without them its installer aborts.
+
 ### 0.1 Docker Desktop
 
 1. Install **Docker Desktop for Windows** (Windows side).
@@ -31,7 +39,7 @@ Both must succeed.
 ### 0.2 Java 21 + Maven via SDKMAN
 
 ```bash
-curl -s "https://get.sdkman.io" | bash
+curl -s "https://get.sdkman.io" | bash          # downloads + runs the SDKMAN installer
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 sdk list java | grep -i tem        # find the current 21.x Temurin id
