@@ -78,7 +78,7 @@ Legend: `[ ]` todo · `[x]` done · `[~]` done with a caveat (see notes)
 >   Java Extension was already installed. Added the Angular Language Service.
 
 ### ✅ Verify Phase 0
-- [ ] `docker run --rm hello-world && java -version && mvn -version && node -v && ng version` — all run
+- [x] `docker run --rm hello-world && java -version && mvn -version && node -v && ng version` — all run
 
 **Notes:**
 >
@@ -88,27 +88,42 @@ Legend: `[ ]` todo · `[x]` done · `[~]` done with a caveat (see notes)
 ## Phase 1 — Project skeleton + PostgreSQL
 
 ### 1.1 Folders
-- [ ] `mkdir -p ~/workspace/fullstack-practice` then `mkdir backend frontend`
+- [x] `mkdir -p ~/workspace/fullstack-practice` then `mkdir backend frontend`
+
+**Notes:**
+>   this is straightforward. ubuntu commands
 
 ### 1.2 `docker-compose.yml` (Postgres only)
 - [ ] created with `postgres:16`, db/user/pass = `guestbook`, port 5432, volume, healthcheck
 
+**Notes:**
+>   I don't really get this. I think it is a guide for docker that will help create the docker image
+
 ### 1.3 `.env`
-- [ ] `.env.example` created (`APP_SUBMISSION_PASSCODE=let-me-in`)
-- [ ] `cp .env.example .env`
-
-### 1.4 `.gitignore`
-- [ ] created
-
-### 1.5 Start the database
-- [ ] `docker compose up -d`
-- [ ] `docker compose ps` shows `db` healthy
-
-### ✅ Verify Phase 1
-- [ ] `docker compose exec db psql -U guestbook -d guestbook -c '\dt'` → "Did not find any relations."
+- [x] `.env.example` created (`APP_SUBMISSION_PASSCODE=let-me-in`)
+- [x] `cp .env.example .env`
 
 **Notes:**
->
+>   This was confusing.  I didn't get I was creating a hidden file that needed a line added to it.  'env.example' needed to be made and have the line above saved to it.  The second line, I don't get what that does either.  Ohh.... it copied '.env.example' and made '.env'.  So '.env' is now the same as the other file.  I have no clue why we needed to do that.
+
+### 1.4 `.gitignore`
+- [x] created
+
+**Notes:**
+>   This one is easy.  I've made and used .gitignore files before.  I really don't know what is standard to add to them.  I've always just followed suggestions and included files with passwords or secure information.
+
+### 1.5 Start the database
+- [x] `docker compose up -d`
+- [x] `docker compose ps` shows `db` healthy
+
+**Notes:**
+>   Okay... this one I think creates and opens the docker image, and then shows that the docker image is running.  I saw a popup that asked for access to docker.desktop, and docker.desktop now shows something running.  The command second command also shows that it is up and running in the terminal window.
+
+### ✅ Verify Phase 1
+- [x] `docker compose exec db psql -U guestbook -d guestbook -c '\dt'` → "Did not find any relations."
+
+**Notes:**
+>   Didn't really get what this was doing, but asked ChatGPT, and it basically looks for the running docker container and runs a postgresql command in it asking it to list the existing tables in the database.  Since there are none, it returns "Did not find any relations."
 
 ---
 
