@@ -239,9 +239,25 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;"
 
 (backend running + `docker compose up -d`)
 - [ ] 4.1 valid POST → `201`, body has `id` + `createdAt`, no `passcode`
+
+**Notes:**
+>
+
 - [ ] 4.2 wrong passcode → `403`
+
+**Notes:**
+>
+
 - [ ] 4.3 blank name/message → `400`
+
+**Notes:**
+>
+
 - [ ] 4.4 `GET /api/messages` → `200`, newest first
+
+**Notes:**
+>
+
 
 ### ✅ Verify Phase 4
 - [ ] `psql ... select id, name, body from messages;` → one row (Ada)
