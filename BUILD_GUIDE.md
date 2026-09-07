@@ -278,6 +278,22 @@ public class GuestbookApplication {
 }
 ```
 
+> **Don't skip the `@ConfigurationPropertiesScan` annotation.** `AppProperties`
+> (3.2) is annotated only with `@ConfigurationProperties`, which by itself does
+> **not** register it as a bean. Something has to activate the scan:
+> `@ConfigurationPropertiesScan` here, or `@EnableConfigurationProperties(AppProperties.class)`,
+> or adding `@Component` to `AppProperties`. Adding the `import` without the
+> annotation on the class does nothing. Miss it and the app dies on startup with:
+>
+> ```
+> APPLICATION FAILED TO START
+> Parameter 1 of constructor in com.example.guestbook.message.MessageService
+> required a bean of type 'com.example.guestbook.config.AppProperties' that could not be found.
+> ```
+>
+> That error surfaces at 3.12, when `MessageService` first asks for the bean —
+> not here.
+
 ### 3.2 `config/AppProperties.java`
 
 ```java
@@ -560,14 +576,20 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-Watch the log: Hibernate prints a `create table messages ...` statement.
+Watch the log: `Started GuestbookApplication` appears, and Hibernate prints a
+`create table messages ...` statement.
+
+If instead you get `APPLICATION FAILED TO START` with "required a bean of type
+`...AppProperties` that could not be found", the `@ConfigurationPropertiesScan`
+annotation from 3.1 is missing from `GuestbookApplication.java` — add it and rerun.
 
 > **Verify Phase 3**
 > ```bash
 > docker compose exec db psql -U guestbook -d guestbook -c '\d messages'
 > ```
-> Shows columns `id, name, body, created_at`. Leave the app running for Phase 4
-> (or restart it there).
+> The app logged `Started GuestbookApplication` (no `APPLICATION FAILED TO START`),
+> and the table shows columns `id, name, body, created_at`. Leave the app running
+> for Phase 4 (or restart it there).
 
 ---
 
@@ -1241,6 +1263,7 @@ Always start from an empty directory: `mkdir ~/practice/gb-02 && cd $_`.
 | Symptom | Cause / fix |
 |---|---|
 | `mvn`/`ng`/`java` not found in a new shell | SDKMAN/nvm init lines are in `~/.bashrc`; open a new login shell or `source ~/.bashrc`. |
+| Backend: `APPLICATION FAILED TO START` — `required a bean of type '...AppProperties' that could not be found` | `@ConfigurationPropertiesScan` missing from `GuestbookApplication.java` (3.1). The `import` alone isn't enough — the annotation must be on the class. Alternatives: `@EnableConfigurationProperties(AppProperties.class)`, or `@Component` on `AppProperties`. |
 | Backend: `Connection refused` to 5432 | `docker compose up -d` not running, or you're on the `docker` profile locally. Unset `SPRING_PROFILES_ACTIVE`. |
 | Backend starts then exits in compose | `db` not healthy yet — the `depends_on: condition: service_healthy` handles it; if you removed that, add it back. |
 | Angular calls return 404 for `/api/...` | Proxy not active. Run `ng serve` (proxy is wired in `angular.json`) or `ng serve --proxy-config proxy.conf.json`. |

@@ -166,24 +166,72 @@ Legend: `[ ]` todo · `[x]` done · `[~]` done with a caveat (see notes)
 ## Phase 3 — Backend domain
 
 Create each file (full contents in guide §3):
-- [ ] 3.1 `GuestbookApplication.java` — add `@ConfigurationPropertiesScan`
-- [ ] 3.2 `config/AppProperties.java`
-- [ ] 3.3 `config/WebConfig.java` (dev CORS)
-- [ ] 3.4 `message/Message.java` (`@Entity`)
-- [ ] 3.5 `message/MessageRepository.java`
-- [ ] 3.6 `message/CreateMessageRequest.java` (validated DTO in)
-- [ ] 3.7 `message/MessageResponse.java` (DTO out — no passcode)
-- [ ] 3.8 `message/InvalidPasscodeException.java`
-- [ ] 3.9 `message/MessageService.java` (passcode check + save)
-- [ ] 3.10 `message/MessageController.java` (GET + POST)
-- [ ] 3.11 `error/ApiExceptionHandler.java`
-- [ ] 3.12 `./mvnw spring-boot:run` — log shows `create table messages ...`
-
-### ✅ Verify Phase 3
-- [ ] `docker compose exec db psql -U guestbook -d guestbook -c '\d messages'` → columns `id, name, body, created_at`
+- [x] 3.1 `GuestbookApplication.java` — add `@ConfigurationPropertiesScan`
 
 **Notes:**
->
+>   All I had to do was add one line of code that was an import statement.  "
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;"  I had no clue why, so I asked ChatGPT.  It tells Spring-Boot "Search my application's packages for classes that are designed to receive configuration properties."
+
+- [x] 3.2 `config/AppProperties.java`
+
+**Notes:**
+>   Created a file.  The package statement required is different than the package statement for 'GuestbookApplication.java'.  Don't know why.  After research, this file is important because we want to create a website that allows submissions with a know password.  The way we are going to do this is with the ConfigurationProperties annotation built into (maybe...?) annotation in Spring.  We needed to do step 3.1 so on start, the application would look for instances of the annoation and allow their use.
+
+- [x] 3.3 `config/WebConfig.java` (dev CORS)
+
+**Notes:**
+>   This file allows request from the Angular front end we are going to create.  It also only allows "GET" and "POST" requests for now.
+
+- [x] 3.4 `message/Message.java` (`@Entity`)
+
+**Notes:**
+>   This file is important because we need a class that emulates the structure of the SQL schema created for messages table and row enteries.  It needs to mimc that structure so we can easily and cleanly pull data from the database, and insert data into it without error.
+
+- [x] 3.5 `message/MessageRepository.java`
+
+**Notes:**
+>   This part is freaking cool.  This interface allows Spring-Boot to make all the crap that we would normally need to write ourselves.  Since the interface extends "JpaRepository" with "Message" and "Long", it's going to make all of the the normal repository functions we need without us having to declare them.  "save()", "findById()", "findAll()", and "delete()" we all get for free.  We just added a ne function "findAllByOrderByCreatedAtDesc()" because that's not standard and we want to use that later for something."
+
+- [x] 3.6 `message/CreateMessageRequest.java` (validated DTO in)
+
+**Notes:**
+>   This file defines the structure of our message requests that will be sent to the backend.
+
+- [x] 3.7 `message/MessageResponse.java` (DTO out — no passcode)
+
+**Notes:**
+>   This file helps convert the response from the database into a format easily readable and usable in Java
+
+- [x] 3.8 `message/InvalidPasscodeException.java`
+
+**Notes:**
+>   This creates a custom exception so we can code how to handle incorrect passcodes.  It doesn't log or track anything right now, but that could be implemented later if we wanted to.
+
+- [x] 3.9 `message/MessageService.java` (passcode check + save)
+
+**Notes:**
+>   Ohh... since this is very simplified project, we don't have separate folders for Controller, Service, and Repository layers.  This class is the Service layer for the Messages, and the MessageRepository layer didn't use @Repository like this file used @Service because we extended the JPA someting or other.  @Service, @Controller, and @Repository are the spring boot ways to build your 3 tier back-end structure.
+
+- [x] 3.10 `message/MessageController.java` (GET + POST)
+
+**Notes:**
+>   We are only going to "GET" and "POST" so or @RestController only needs to handle these two http requests.
+
+- [x] 3.11 `error/ApiExceptionHandler.java`
+
+**Notes:**
+>   Handling exceptions and such
+
+- [x] 3.12 `./mvnw spring-boot:run` — log shows `create table messages ...`
+
+**Notes:**
+>   Couldn't get it to run for the longest time.  It had to do with the fact that the application wasn't recognizing the configuration files as beans on run.  All that was needed was an annotation above the app class "@ConfigurationPropertiesScan" so it could recognize the appConfiguration and create the beans.
+
+### ✅ Verify Phase 3
+- [x] `docker compose exec db psql -U guestbook -d guestbook -c '\d messages'` → columns `id, name, body, created_at`
+
+**Notes:**
+>   It printed output after running.  I had to run the backend in a different instance of vscode I opened in the terminal in the back-end folder.  Don't know if that was necessary.  I'll try running it while in the full app in vscode and see if that changes anything.  Still worked.  But the terminal options don't include wsl now. It's opening in bash instead.  I'll have to figure out if I can open it in wsl still or if that isn't an option anymore.
 
 ---
 
