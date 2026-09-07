@@ -94,7 +94,7 @@ Legend: `[ ]` todo · `[x]` done · `[~]` done with a caveat (see notes)
 >   this is straightforward. ubuntu commands
 
 ### 1.2 `docker-compose.yml` (Postgres only)
-- [ ] created with `postgres:16`, db/user/pass = `guestbook`, port 5432, volume, healthcheck
+- [x] created with `postgres:16`, db/user/pass = `guestbook`, port 5432, volume, healthcheck
 
 **Notes:**
 >   I don't really get this. I think it is a guide for docker that will help create the docker image
@@ -130,24 +130,36 @@ Legend: `[ ]` todo · `[x]` done · `[~]` done with a caveat (see notes)
 ## Phase 2 — Spring Boot backend scaffold
 
 ### 2.1 Generate
-- [ ] `curl https://start.spring.io/starter.zip ...` (web, data-jpa, postgresql, validation, actuator)
-- [ ] unzip into `backend/` and flatten the inner folder
-- [ ] `ls backend` shows `pom.xml`, `src`, `mvnw`
-
-### 2.2 `application.yml`
-- [ ] delete `application.properties`, create `application.yml` (port 8081, datasource localhost, ddl-auto update, `app.submission-passcode`)
-
-### 2.3 `application-docker.yml`
-- [ ] created (datasource host = `db`)
-
-### 2.4 First run
-- [ ] `cd backend && ./mvnw spring-boot:run` → `Started GuestbookApplication`
-
-### ✅ Verify Phase 2
-- [ ] `curl -s localhost:8081/actuator/health` → `{"status":"UP"}`
+- [x] `curl https://start.spring.io/starter.zip ...` (web, data-jpa, postgresql, validation, actuator)
+- [x] unzip into `backend/` and flatten the inner folder
+- [x] `ls backend` shows `pom.xml`, `src`, `mvnw`
 
 **Notes:**
->
+>   This was just a copy and paste step from the guide.  Apparently, most people access the Spring Initializr in the browser, or have it integrated into the IDE with IntelliJ.  The copy and paste is good for making sure the tutorial is followed correctly.
+
+### 2.2 `application.yml`
+- [x] delete `application.properties`, create `application.yml` (port 8081, datasource localhost, ddl-auto update, `app.submission-passcode`)
+
+**Notes:**
+>   'application.properties could have been used, but the structure of the data would have been different.  the guide preffered the .yml file because it uses indentation to define the variables instead of a series of words seperated by '.'s 
+
+### 2.3 `application-docker.yml`
+- [x] created (datasource host = `db`)
+
+**Notes:**
+>   This part isn't important now, and I don't think we will be able to even verify if it's been done correctly until Phase 8.  It has to do with docker configuration information.
+
+### 2.4 First run
+- [x] `cd backend && ./mvnw spring-boot:run` → `Started GuestbookApplication`
+
+**Notes:**
+>   First attempt resulted in "build failure".  Second attempt, ran the command with "-e" to see the stack trace and didn't understand how to find the relevant information.  Third attempt, ran the command with "-X" to see the DEBUG tools.  Went to a suggested website, and it has to do with a plugin for Maven problem.  Something in the POM is not configured correctly... maybe?  Asked Claude, and figured out it was because my docker container for SQL wasn't up.  Opened up docker.desktop, and ran it and springboot starts right up now.  I also learned I can check if docker is running in the command line with "docker ps" or "docker compose ps".  I can also start the docker file with "docker compose up", but then I have to exit the docker "interaction area" (I don't know what it is called when the command line is taken over by some program like nano, vim, or even a git command that reads logs).
+
+### ✅ Verify Phase 2
+- [x] `curl -s localhost:8081/actuator/health` → `{"status":"UP"}`
+
+**Notes:**
+>   tried this command, and got no output.  Changed "8081" to "5432", and still got no output.  Oh.... I was running the command in the same terminal window after i ran and closed the Spring-boot instance.  I needed to run Spring-boot in one terminal, open a second, and run the command.  Did it and got the desired output.  "{"groups":["liveness","readiness"],"status":"UP"}"
 
 ---
 
