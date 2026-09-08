@@ -304,19 +304,46 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;"
 ## Phase 6 — The guestbook feature
 
 Create each file (full contents in guide §6):
-- [ ] 6.1 `src/app/core/message.model.ts`
-- [ ] 6.2 `src/app/core/message.service.ts`
-- [ ] 6.3 `src/app/guestbook/guestbook.component.ts`
-- [ ] 6.4 `src/app/guestbook/guestbook.component.html`
-- [ ] 6.5 `src/app/guestbook/guestbook.component.css`
-- [ ] 6.6 mount `<app-guestbook />` in the root component (`app.component.ts` **or** `app.ts`)
-- [ ] 6.7 `ng serve`
-
-### ✅ Verify Phase 6
-- [ ] :4200 shows the form + empty "Messages" section, no console errors
+- [x] 6.1 `src/app/core/message.model.ts`
 
 **Notes:**
->
+>   I believe this is the structure necessary to track sending and receiving information about messages in typescript for angular.  Asked ChatGPT, and it said "These interfaces define the expected structure of message data that the Angular frontend sends to and receives from the Spring Boot backend."  Makes more sense.  
+
+- [ ] 6.2 `src/app/core/message.service.ts`
+
+**Notes:**
+>   What we made in the last step was a typescript interface.  This step implements the type script interface for structuring sent and received messages on the front-end .... as a service... ?  We want MessageService to be @Injectable because we are going to use it a component or some other structure later.  It needs certain functions in order to be useful, and one of the abilities it will need are HTTP request that it can do because of 'HttpClient'.  ChatGPT said to replace "implements the interfaces" with "uses the interfaces to type the data it sends and receives".
+
+- [x] 6.3 `src/app/guestbook/guestbook.component.ts`
+
+**Notes:**
+>   This is a component. It will use everything we have built so far to render something on the page for the user and then make calls to the back end through 'message.service'.
+
+- [x] 6.4 `src/app/guestbook/guestbook.component.html`
+
+**Notes:**
+>   Oh yeah! I remember doing this.  When I was following an AI's prompts for how to create stuff in angular, it was having me manually create and implement these pieces as well.  There is a system built into Angular to create components with commands through the command line.  I'll need to do that next time through this project.
+
+- [x] 6.5 `src/app/guestbook/guestbook.component.css`
+
+**Notes:**
+>   This is the .css (Cascading Style Sheet) file.  If I used the create component command in angular all three of the last files would have been created and named and populated with some code... I think?  It also can create a testing file if I'm not mistaken.  The next pass of this project will definitely need to include using the command line to create components and the use of angular unit testing.
+
+- [x] 6.6 mount `<app-guestbook />` in the root component (`app.component.ts` **or** `app.ts`)
+
+**Notes:**
+>   Literally started to ask Claude why the directions made no sense because there was no 'app.component.ts' in the 'app' folder.  But all I had to do was keep reading and see that it also might be called 'app.ts'.  It was and is in the 'app' folder.
+
+- [x] 6.7 `ng serve`
+
+**Notes:**
+>   Freaking works. I have no clue what the passcode is, so I can't actually test the implementation.  But the front end loads and displays the guestbook component.
+
+### ✅ Verify Phase 6
+- [x] :4200 shows the form + empty "Messages" section, no console errors
+
+**Notes:**
+>   Verified!
 
 ---
 
@@ -327,15 +354,24 @@ Create each file (full contents in guide §6):
 - [ ] terminal 2: `cd backend && ./mvnw spring-boot:run`
 - [ ] terminal 3: `cd frontend && ng serve`
 
+**Notes:**
+>
+
 ### 7.2 Browser checks (http://localhost:4200)
 - [ ] valid submit (passcode `let-me-in`) → green success + row appears
 - [ ] passcode `nope` → red "Wrong passcode."
 - [ ] empty name → blocked client-side (and server `400` if forced)
 - [ ] reload page → messages persist
 
+**Notes:**
+>
+
 ### ✅ Verify Phase 7
 - [ ] `psql ... select name, body, created_at from messages order by created_at desc;` → your submissions
 - [ ] **App works end to end.**
+
+**Notes:**
+>
 
 **Notes:**
 >
@@ -345,9 +381,24 @@ Create each file (full contents in guide §6):
 ## Phase 8 — Dockerize the backend
 
 - [ ] 8.1 `backend/Dockerfile` (multi-stage: maven build → jre-alpine)
+
+**Notes:**
+>
+
 - [ ] 8.2 `backend/.dockerignore`
+
+**Notes:**
+>
+
 - [ ] 8.3 `docker build -t guestbook-backend .`
+
+**Notes:**
+>
+
 - [ ] 8.3 `docker run ... --network fullstack-practice_default -e SPRING_PROFILES_ACTIVE=docker ...` (confirm network name with `docker network ls`)
+
+**Notes:**
+>
 
 ### ✅ Verify Phase 8
 - [ ] `curl -s localhost:8081/actuator/health` → UP
@@ -361,9 +412,24 @@ Create each file (full contents in guide §6):
 ## Phase 9 — Dockerize the frontend + nginx
 
 - [ ] 9.1 `npm run build`; `ls dist/frontend` → has `browser/` (else adjust Dockerfile COPY path)
+
+**Notes:**
+>
+
 - [ ] 9.2 `frontend/Dockerfile` (multi-stage: node build → nginx)
+
+**Notes:**
+>
+
 - [ ] 9.3 `frontend/nginx.conf` (`/api/` → `backend:8081`, SPA fallback)
+
+**Notes:**
+>
+
 - [ ] 9.4 `frontend/.dockerignore`
+
+**Notes:**
+>
 
 ### ✅ Verify Phase 9
 - [ ] `docker build -t guestbook-frontend frontend/` completes
@@ -376,13 +442,36 @@ Create each file (full contents in guide §6):
 ## Phase 10 — Full stack via Compose
 
 - [ ] 10.1 `docker-compose.full.yml` (db + backend + frontend, healthchecks, `8080:80`)
+
+**Notes:**
+>
+
 - [ ] 10.2 `docker compose down` (stop dev db), then `docker compose -f docker-compose.full.yml up --build`
+
+**Notes:**
+>
+
 - [ ] 10.3 http://localhost:8080 — repeat the Phase 7 browser checks
+
+**Notes:**
+>
+
 - [ ] 10.3 `curl -s localhost:8080/api/messages`
+
+**Notes:**
+>
+
 - [ ] 10.4 shutdown: `... down` (keep data) / `... down -v` (wipe volume)
+
+**Notes:**
+>
 
 ### ✅ Verify Phase 10
 - [ ] cold `up --build` from clean state → working guestbook at :8080, no manual steps
+
+**Notes:**
+>
+
 - [ ] **Done.**
 
 **Notes:**

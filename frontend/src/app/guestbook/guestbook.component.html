@@ -1,0 +1,48 @@
+<section class="card">
+  <h1>Sign the guestbook</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Name
+      <input type="text" formControlName="name" />
+    </label>
+
+    <label>
+      Message
+      <textarea rows="4" formControlName="message"></textarea>
+    </label>
+
+    <label>
+      Passcode
+      <input type="password" formControlName="passcode" />
+    </label>
+
+    <button type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Sending…' : 'Submit' }}
+    </button>
+
+    @if (success()) {
+      <p class="ok">Thanks! Your message was added.</p>
+    }
+    @if (error()) {
+      <p class="err">{{ error() }}</p>
+    }
+  </form>
+</section>
+
+<section class="card">
+  <h2>Messages</h2>
+  @if (messages().length === 0) {
+    <p>No messages yet.</p>
+  } @else {
+    <ul class="messages">
+      @for (m of messages(); track m.id) {
+        <li>
+          <strong>{{ m.name }}</strong>
+          <span class="date">{{ m.createdAt | date: 'medium' }}</span>
+          <p>{{ m.message }}</p>
+        </li>
+      }
+    </ul>
+  }
+</section>

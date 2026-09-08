@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { GuestbookComponent } from './guestbook/guestbook.component';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
-  templateUrl: './app.html',
+  standalone: true,
+  imports: [GuestbookComponent],
+  template: '<app-guestbook />',
 })
-export class App {
-  protected readonly title = signal('frontend');
-}
+export class App {}
