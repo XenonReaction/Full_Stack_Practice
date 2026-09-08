@@ -408,25 +408,25 @@ Create each file (full contents in guide §6):
 
 ## Phase 9 — Dockerize the frontend + nginx
 
-- [ ] 9.1 `npm run build`; `ls dist/frontend` → has `browser/` (else adjust Dockerfile COPY path)
+- [x] 9.1 `npm run build`; `ls dist/frontend` → has `browser/` (else adjust Dockerfile COPY path)
 
 **Notes:**
->
+>   Ran it
 
-- [ ] 9.2 `frontend/Dockerfile` (multi-stage: node build → nginx)
-
-**Notes:**
->
-
-- [ ] 9.3 `frontend/nginx.conf` (`/api/` → `backend:8081`, SPA fallback)
+- [x] 9.2 `frontend/Dockerfile` (multi-stage: node build → nginx)
 
 **Notes:**
->
+>   There was a 'browser' folder, so I followed the guide as is.
 
-- [ ] 9.4 `frontend/.dockerignore`
+- [x] 9.3 `frontend/nginx.conf` (`/api/` → `backend:8081`, SPA fallback)
 
 **Notes:**
->
+>   Made it
+
+- [x] 9.4 `frontend/.dockerignore`
+
+**Notes:**
+>   Made it
 
 ### ✅ Verify Phase 9
 - [ ] `docker build -t guestbook-frontend frontend/` completes
