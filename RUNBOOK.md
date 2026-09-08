@@ -238,55 +238,66 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;"
 ## Phase 4 — Backend verification with curl
 
 (backend running + `docker compose up -d`)
-- [ ] 4.1 valid POST → `201`, body has `id` + `createdAt`, no `passcode`
+- [x] 4.1 valid POST → `201`, body has `id` + `createdAt`, no `passcode`
 
 **Notes:**
->
+>   works
 
-- [ ] 4.2 wrong passcode → `403`
-
-**Notes:**
->
-
-- [ ] 4.3 blank name/message → `400`
+- [x] 4.2 wrong passcode → `403`
 
 **Notes:**
->
+>   works
 
-- [ ] 4.4 `GET /api/messages` → `200`, newest first
+- [x] 4.3 blank name/message → `400`
 
 **Notes:**
->
+>   works
 
+- [x] 4.4 `GET /api/messages` → `200`, newest first
+
+**Notes:**
+>   works
 
 ### ✅ Verify Phase 4
-- [ ] `psql ... select id, name, body from messages;` → one row (Ada)
+- [x] `psql ... select id, name, body from messages;` → one row (Ada)
 
 **Notes:**
->
+>   This entire phase wouldn't be necessary with test driven development.  Should implement that in the future, but that isn't the focus of this project.
 
 ---
 
 ## Phase 5 — Angular frontend scaffold
 
 ### 5.1 Generate
-- [ ] `ng new frontend --style=css --ssr=false` (accept other defaults)
-
-### 5.2 `src/app/app.config.ts`
-- [ ] add `provideHttpClient()` to `providers` (leave the rest untouched)
-
-### 5.3 Dev proxy
-- [ ] create `frontend/proxy.conf.json` → target `http://localhost:8081`
-- [ ] add `"proxyConfig": "proxy.conf.json"` to `angular.json` → serve → options
-
-### 5.4 Run
-- [ ] `ng serve` → http://localhost:4200 loads the starter page
-
-### ✅ Verify Phase 5
-- [ ] starter page loads at :4200, no console errors
+- [x] `ng new frontend --style=css --ssr=false` (accept other defaults)
 
 **Notes:**
->
+>   Didn't work first time i tried the "ng new frontend" command.  There was some issue with the version of npm (10.9.8) that could accept null values, so Claude updated the version to 11.19.1, and the commands worked.
+
+### 5.2 `src/app/app.config.ts`
+- [x] add `provideHttpClient()` to `providers` (leave the rest untouched)
+
+**Notes:**
+>   This step is necessary for setting up how Angular creates HTTP requests. 'HttpClient' is the tool that makes the requests, but we need to set up the project, so the app has access to this tool.  This is done in 'app.config.ts' because this is where we tell Angular what providers to use.  The way 'HttpClient' will be used is through Angular's dependency injection system.  I'm pretty sure we will use the annotation '@Injectable' later to implement 'HttpClient', but we will find out.
+
+### 5.3 Dev proxy
+- [x] create `frontend/proxy.conf.json` → target `http://localhost:8081`
+- [x] add `"proxyConfig": "proxy.conf.json"` to `angular.json` → serve → options
+
+**Notes:**
+>   This step has to do with CORS (cross-orgins) considerations.  This is a "during development" step that is necessary to have the front end and back end know what ports are being used, I think.  It seems like a lot of learning to use these tools in unison is about learing how to get them downloaded, checking the download is the correct version, testing the tool exists, testing the tool works, then setting up 9 other tools in the same fashion, then setting up all the specific pieces that are necessary to make sure the tools work in unison.  I done very minimal interaction with Angular, Spring-boot, docker, and SQL so far.  Most of the time is spent setting up and confirming each layer works together.
+
+### 5.4 Run
+- [x] `ng serve` → http://localhost:4200 loads the starter page
+
+**Notes:**
+>   This is a basic command to see the front end.  It works.
+
+### ✅ Verify Phase 5
+- [x] starter page loads at :4200, no console errors
+
+**Notes:**
+>   Front-end loads. I also ran docker and the back-end, but I forgot I haven't done anything to wire up or connect the front-end and back-end.
 
 ---
 
