@@ -377,32 +377,32 @@ Create each file (full contents in guide §6):
 
 ## Phase 8 — Dockerize the backend
 
-- [ ] 8.1 `backend/Dockerfile` (multi-stage: maven build → jre-alpine)
+- [x] 8.1 `backend/Dockerfile` (multi-stage: maven build → jre-alpine)
 
 **Notes:**
->
+>   This is the instructions for building the dockerized container for the backend.  This can be done with other tools, and the best tool is probablly to us Spring Boot Buildpacks.  This file was created manually, but the buildpacks are designed to make a production oriented container.
 
-- [ ] 8.2 `backend/.dockerignore`
-
-**Notes:**
->
-
-- [ ] 8.3 `docker build -t guestbook-backend .`
+- [x] 8.2 `backend/.dockerignore`
 
 **Notes:**
->
+>   Get's rid of files that are unnecessary for the backend to run
+
+- [x] 8.3 `docker build -t guestbook-backend .`
+
+**Notes:**
+>   I built it.
 
 - [ ] 8.3 `docker run ... --network fullstack-practice_default -e SPRING_PROFILES_ACTIVE=docker ...` (confirm network name with `docker network ls`)
 
 **Notes:**
->
+>   didn't work on the first try because I needed to run "docker compose up -d" first.  I think if I run "docker compose up -d" it should spin up the database and the backend at the same time.
 
 ### ✅ Verify Phase 8
-- [ ] `curl -s localhost:8081/actuator/health` → UP
-- [ ] `curl -s localhost:8081/api/messages` → earlier rows
+- [x] `curl -s localhost:8081/actuator/health` → UP
+- [x] `curl -s localhost:8081/api/messages` → earlier rows
 
 **Notes:**
->
+>   Worked and didn't show anything after closing the instance of docker running.  I have to run that hug "docker run ..." command to get the backend and database up at the same time now.
 
 ---
 
