@@ -350,31 +350,28 @@ Create each file (full contents in guide §6):
 ## Phase 7 — End-to-end in dev mode
 
 ### 7.1 Three terminals
-- [ ] terminal 1: `docker compose up -d` (db)
-- [ ] terminal 2: `cd backend && ./mvnw spring-boot:run`
-- [ ] terminal 3: `cd frontend && ng serve`
+- [x] terminal 1: `docker compose up -d` (db)
+- [x] terminal 2: `cd backend && ./mvnw spring-boot:run`
+- [x] terminal 3: `cd frontend && ng serve`
 
 **Notes:**
->
+>   These are the same steps from the end of Phase 6. They still work.
 
 ### 7.2 Browser checks (http://localhost:4200)
-- [ ] valid submit (passcode `let-me-in`) → green success + row appears
-- [ ] passcode `nope` → red "Wrong passcode."
-- [ ] empty name → blocked client-side (and server `400` if forced)
-- [ ] reload page → messages persist
+- [x] valid submit (passcode `let-me-in`) → green success + row appears
+- [x] passcode `nope` → red "Wrong passcode."
+- [x] empty name → blocked client-side (and server `400` if forced)
+- [x] reload page → messages persist
 
 **Notes:**
->
+>   Not sure about the empty name submission.  It doesn't do anything, even with the correct password.
 
 ### ✅ Verify Phase 7
-- [ ] `psql ... select name, body, created_at from messages order by created_at desc;` → your submissions
-- [ ] **App works end to end.**
+- [x] `psql ... select name, body, created_at from messages order by created_at desc;` → your submissions
+- [x] **App works end to end.**
 
 **Notes:**
->
-
-**Notes:**
->
+> Works as intended!
 
 ---
 
