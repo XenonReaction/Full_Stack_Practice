@@ -22,3 +22,4 @@ management:
 
 app:
   submission-passcode: ${APP_SUBMISSION_PASSCODE:let-me-in}
+  cors-allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:4200}

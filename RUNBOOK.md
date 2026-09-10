@@ -429,50 +429,50 @@ Create each file (full contents in guide §6):
 >   Made it
 
 ### ✅ Verify Phase 9
-- [ ] `docker build -t guestbook-frontend frontend/` completes
+- [x] `docker build -t guestbook-frontend frontend/` completes
 
 **Notes:**
->
+>   Build completed
 
 ---
 
 ## Phase 10 — Full stack via Compose
 
-- [ ] 10.1 `docker-compose.full.yml` (db + backend + frontend, healthchecks, `8080:80`)
+- [x] 10.1 `docker-compose.full.yml` (db + backend + frontend, healthchecks, `8080:80`)
 
 **Notes:**
->
+>   made it by modifying 'docker-compose.yml' instead of creating a new file
 
-- [ ] 10.2 `docker compose down` (stop dev db), then `docker compose -f docker-compose.full.yml up --build`
+- [x] 10.2 `docker compose down` (stop dev db), then `docker compose -f docker-compose.full.yml up --build`
 
 **Notes:**
->
+>   Did it and ran it.
 
 - [ ] 10.3 http://localhost:8080 — repeat the Phase 7 browser checks
 
 **Notes:**
->
+>   I can open it, but I can no longer post. The passcode is always considered bad.  This is why unit testing is so important.  Now I have to manually go into each of the pieces of the app to find where the break down is.  I asked claude to give me some ideas of how to hunt the problem down.  Step 1 was check the dev tools and the actual request that was sent has the correct passcode; it does.  I did step 2 and 3 and got tired of trying to debug.  I asked Claude to fix it and tell me how it did it.  It's using tools and structures I don't understand yet, so I don't want to waste time trying to diagnose a bunch of pieces I don't understand.
 
-- [ ] 10.3 `curl -s localhost:8080/api/messages`
-
-**Notes:**
->
-
-- [ ] 10.4 shutdown: `... down` (keep data) / `... down -v` (wipe volume)
+- [x] 10.3 `curl -s localhost:8080/api/messages`
 
 **Notes:**
->
+>   Claude was able to update and fix it. It had to do with how the .env variables were used and tracked in docker or something like that.  Claude said "The backend's CORS config only allowed http://localhost:4200 (the ng serve origin), so once the app was served through nginx at http://localhost:8080, Spring rejected every browser POST with a 403 "Invalid CORS request" before the controller ran — and the frontend blindly reports any 403 as "Wrong passcode," which made it look like a passcode problem. The fix made the allowed origins a configurable property (app.cors-allowed-origins, env var APP_CORS_ALLOWED_ORIGINS) instead of a hard-coded value, mirroring how the submission passcode is already handled. docker-compose.yml now sets that variable to http://localhost:8080,http://localhost:4200, so both the Dockerized frontend and local dev server are accepted."  So the frontend needed to be smarter to not make bad reports and the HTTP responses should be more specific.  Logging, unit tests, debugging toosls; all things I need to implement and work on.
+
+- [x] 10.4 shutdown: `... down` (keep data) / `... down -v` (wipe volume)
+
+**Notes:**
+>   This is just the shutdown command. Works.
 
 ### ✅ Verify Phase 10
-- [ ] cold `up --build` from clean state → working guestbook at :8080, no manual steps
+- [x] cold `up --build` from clean state → working guestbook at :8080, no manual steps
 
 **Notes:**
->
+>   Ran the up and down cycle a few times.  Because of the modified setup, I just ran "docker compose up --build", and it works.
 
-- [ ] **Done.**
+- [x] **Done.**
 
 **Notes:**
->
+>   Done!
 
 ---
 
